@@ -13,20 +13,17 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(135deg, #a8c0ff, #3f2b96); /* Latar belakang menarik */
+            background: linear-gradient(135deg, #a8c0ff, #3f2b96);
             margin: 0;
             overflow: hidden;
             color: #333;
         }
 
         .book-container {
-            width: 800px; /* Lebar total buku */
-            height: 550px; /* Tinggi buku */
+            width: 800px;
+            height: 550px;
             position: relative;
-            display: flex; /* Untuk menempatkan halaman di tengah kontainer */
-            justify-content: center;
-            align-items: center;
-            perspective: 1500px; /* Untuk efek 3D */
+            perspective: 1500px;
         }
 
         .book {
@@ -34,30 +31,33 @@
             height: 100%;
             transform-style: preserve-3d;
             position: relative;
+            display: flex; /* Menggunakan flexbox untuk memusatkan halaman */
+            justify-content: center;
+            align-items: center;
         }
 
         .page {
             position: absolute;
-            width: 50%; /* Setiap halaman setengah dari lebar buku kontainer */
+            width: 50%;
             height: 100%;
-            background-color: #ffffff; /* Putih bersih */
-            border-radius: 10px; /* Sudut membulat */
+            background-color: #ffffff;
+            border-radius: 10px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Animasi lebih dinamis */
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             transform-origin: left center;
             transform: rotateY(0deg);
             z-index: 10;
-            overflow: hidden; /* Pastikan konten tidak keluar dari sudut membulat */
+            overflow: hidden;
         }
 
         .page-content {
             padding: 25px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* Konten ke kiri */
+            align-items: flex-start;
             height: 100%;
             box-sizing: border-box;
-            text-align: left; /* Teks rata kiri */
+            text-align: left;
         }
         
         .page-content h1, .page-content h2 {
@@ -75,24 +75,25 @@
             max-width: 90%;
             height: auto;
             border-radius: 8px;
-            margin-top: auto; /* Gambar di bagian bawah kiri */
-            display: block; /* Agar img tidak punya spasi bawah default */
-            align-self: flex-start; /* Gambar di sebelah kiri */
+            margin-top: auto;
+            display: block;
+            align-self: flex-start;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
+        /* Halaman Kanan (saat dibuka) */
         .page.flipped {
             transform: rotateY(-180deg);
             z-index: 5;
         }
 
-        /* Mengatur z-index untuk urutan tumpukan halaman */
-        #page1 { z-index: 4; } /* Cover */
-        #page2 { z-index: 3; }
-        #page3 { z-index: 2; }
-        #page4 { z-index: 1; } /* Halaman terakhir */
-
-
+        /* Posisi setiap halaman */
+        #page0 { z-index: 4; left: 0; }
+        #page1 { z-index: 3; left: 0; }
+        #page2 { z-index: 2; left: 0; }
+        #page3 { z-index: 1; left: 0; }
+        #page4 { z-index: 0; left: 0; }
+        
         .controls {
             position: absolute;
             bottom: 30px;
@@ -107,7 +108,7 @@
             font-size: 17px;
             cursor: pointer;
             border: none;
-            border-radius: 30px; /* Tombol lebih rounded */
+            border-radius: 30px;
             background-color: #007bff;
             color: white;
             box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
@@ -135,7 +136,6 @@
                     <img src="https://via.placeholder.com/350x450/8a2be2/ffffff?text=Cover+Depan" alt="Cover Depan Ksatria">
                 </div>
             </div>
-
             <div class="page" id="page1">
                 <div class="page-content">
                     <h2>Halaman 1: Kegelapan di Lumina</h2>
@@ -143,7 +143,6 @@
                     <img src="https://via.placeholder.com/350x250/3498db/ffffff?text=Sir+Kael+Bertekad" alt="Sir Kael bertekad">
                 </div>
             </div>
-
             <div class="page" id="page2">
                 <div class="page-content">
                     <h2>Halaman 2: Perjalanan Dimulai</h2>
@@ -151,7 +150,6 @@
                     <img src="https://via.placeholder.com/350x250/2ecc71/ffffff?text=Hutan+Misterius" alt="Hutan Misterius">
                 </div>
             </div>
-
             <div class="page" id="page3">
                 <div class="page-content">
                     <h2>Halaman 3: Pertemuan Tak Terduga</h2>
@@ -159,7 +157,6 @@
                     <img src="https://via.placeholder.com/350x250/f39c12/ffffff?text=Kael+dan+Griffin" alt="Kael dan Griffin">
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -172,13 +169,7 @@
         const pages = document.querySelectorAll('.page');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        let currentPageIndex = 0; // Mulai dari cover depan
-
-        // Mengatur z-index awal agar halaman terlihat bertumpuk dengan benar
-        // Halaman paling atas (cover) harus punya z-index tertinggi
-        pages.forEach((page, index) => {
-            page.style.zIndex = pages.length - index;
-        });
+        let currentPageIndex = 0;
 
         function flipPage(direction) {
             if (direction === 'next') {
@@ -200,7 +191,6 @@
             nextBtn.disabled = currentPageIndex === pages.length - 1;
         }
 
-        // Inisialisasi status tombol saat pertama kali dimuat
         updateButtonState();
 
         nextBtn.addEventListener('click', () => flipPage('next'));

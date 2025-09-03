@@ -3,34 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flipbook Fantasi</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Flipbook Petualangan Ksatria</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .book-container {
+            width: 800px;
+            height: 500px;
+            position: relative;
+        }
+
+        .book {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            perspective: 1500px;
+            position: relative;
+        }
+
+        .page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.8s ease-in-out;
+            transform-origin: left center;
+            transform: rotateY(0deg);
+            z-index: 10;
+        }
+
+        .page-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        
+        .page-content img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+            z-index: 5;
+        }
+
+        #page1 { z-index: 3; }
+        #page2 { z-index: 2; }
+        #page3 { z-index: 1; }
+
+        .controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+        
+        .controls button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="flipbook-container">
-        <div class="page" id="page1">
-            <div class="page-content">
-                <h2>Halaman 1</h2>
-                <p>Di sebuah kerajaan yang damai, hiduplah Sir Kael...</p>
-                <img src="gambar_halaman1.jpg" alt="Sir Kael">
+    <div class="book-container">
+        <div class="book">
+            <div class="page" id="page1">
+                <div class="page-content">
+                    <h1>Ksatria Cahaya dan Kristal Ajaib</h1>
+                    <p>Sebuah cerita petualangan</p>
+                    <img src="https://via.placeholder.com/350x450.png?text=Cover" alt="Cover Ksatria">
+                </div>
             </div>
-        </div>
-        
-        <div class="page" id="page2">
-            <div class="page-content">
-                <h2>Halaman 2</h2>
-                <p>Sir Kael memulai perjalanannya...</p>
-                <img src="gambar_halaman2.jpg" alt="Perjalanan Sir Kael">
+
+            <div class="page" id="page2">
+                <div class="page-content">
+                    <h2>Halaman 1</h2>
+                    <p>Di sebuah kerajaan yang damai, hiduplah Sir Kael, seorang ksatria muda dengan hati yang berani dan pedang yang tajam. Suatu malam, langit diselimuti kegelapan aneh, dan desas-desus tentang Negeri Lumina yang diserang bayangan mulai menyebar.</p>
+                    <img src="https://via.placeholder.com/350x300.png?text=Halaman+1" alt="Sir Kael">
+                </div>
             </div>
-        </div>
-        
-        <div class="controls">
-            <button id="prevBtn">Previous</button>
-            <button id="nextBtn">Next</button>
+
+            <div class="page" id="page3">
+                <div class="page-content">
+                    <h2>Halaman 2</h2>
+                    <p>Dengan tekad yang bulat, Sir Kael memulai perjalanannya menuju Negeri Lumina. Ia berjanji akan mengembalikan cahaya dan kedamaian di sana, tidak peduli seberapa berat rintangan yang akan ia hadapi.</p>
+                    <img src="https://via.placeholder.com/350x300.png?text=Halaman+2" alt="Perjalanan Kael">
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="controls">
+        <button id="prevBtn">Kembali</button>
+        <button id="nextBtn">Lanjut</button>
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentPageIndex = 0;
+
+        // Fungsi untuk mengontrol halaman
+        function flipPage(direction) {
+            if (direction === 'next' && currentPageIndex < pages.length - 1) {
+                pages[currentPageIndex].classList.add('flipped');
+                currentPageIndex++;
+            } else if (direction === 'prev' && currentPageIndex > 0) {
+                currentPageIndex--;
+                pages[currentPageIndex].classList.remove('flipped');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => flipPage('next'));
+        prevBtn.addEventListener('click', () => flipPage('prev'));
+    </script>
 </body>
 </html>

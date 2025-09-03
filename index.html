@@ -5,59 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flipbook Petualangan Ksatria</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
         body {
-            font-family: sans-serif;
+            font-family: 'Poppins', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f5f5f5;
+            background: linear-gradient(135deg, #a8c0ff, #3f2b96); /* Latar belakang menarik */
             margin: 0;
             overflow: hidden;
+            color: #333;
         }
 
         .book-container {
-            width: 800px;
-            height: 500px;
+            width: 800px; /* Lebar total buku */
+            height: 550px; /* Tinggi buku */
             position: relative;
+            display: flex; /* Untuk menempatkan halaman di tengah kontainer */
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px; /* Untuk efek 3D */
         }
 
         .book {
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            perspective: 1500px;
             position: relative;
         }
 
         .page {
             position: absolute;
-            width: 50%;
+            width: 50%; /* Setiap halaman setengah dari lebar buku kontainer */
             height: 100%;
-            background-color: #fff;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.8s ease-in-out;
+            background-color: #ffffff; /* Putih bersih */
+            border-radius: 10px; /* Sudut membulat */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Animasi lebih dinamis */
             transform-origin: left center;
             transform: rotateY(0deg);
             z-index: 10;
+            overflow: hidden; /* Pastikan konten tidak keluar dari sudut membulat */
         }
 
         .page-content {
-            padding: 20px;
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Konten ke kiri */
             height: 100%;
             box-sizing: border-box;
-            text-align: center;
+            text-align: left; /* Teks rata kiri */
         }
         
+        .page-content h1, .page-content h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .page-content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
         .page-content img {
             max-width: 90%;
             height: auto;
             border-radius: 8px;
-            margin-top: 15px;
+            margin-top: auto; /* Gambar di bagian bawah kiri */
+            display: block; /* Agar img tidak punya spasi bawah default */
+            align-self: flex-start; /* Gambar di sebelah kiri */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .page.flipped {
@@ -65,32 +86,41 @@
             z-index: 5;
         }
 
-        #page1 { z-index: 3; }
-        #page2 { z-index: 2; }
-        #page3 { z-index: 1; }
+        /* Mengatur z-index untuk urutan tumpukan halaman */
+        #page1 { z-index: 4; } /* Cover */
+        #page2 { z-index: 3; }
+        #page3 { z-index: 2; }
+        #page4 { z-index: 1; } /* Halaman terakhir */
+
 
         .controls {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
         
         .controls button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 25px;
+            font-size: 17px;
             cursor: pointer;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px; /* Tombol lebih rounded */
             background-color: #007bff;
             color: white;
-            transition: background-color 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         
         .controls button:hover {
             background-color: #0056b3;
+            transform: translateY(-3px);
+        }
+        
+        .controls button:active {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -98,27 +128,35 @@
 
     <div class="book-container">
         <div class="book">
-            <div class="page" id="page1">
+            <div class="page" id="page0">
                 <div class="page-content">
                     <h1>Ksatria Cahaya dan Kristal Ajaib</h1>
-                    <p>Sebuah cerita petualangan</p>
-                    <img src="https://via.placeholder.com/350x450.png?text=Cover" alt="Cover Ksatria">
+                    <p>Sebuah kisah petualangan epik</p>
+                    <img src="https://via.placeholder.com/350x450/8a2be2/ffffff?text=Cover+Depan" alt="Cover Depan Ksatria">
+                </div>
+            </div>
+
+            <div class="page" id="page1">
+                <div class="page-content">
+                    <h2>Halaman 1: Kegelapan di Lumina</h2>
+                    <p>Di sebuah kerajaan yang damai, hiduplah Sir Kael, seorang ksatria muda dengan hati yang berani dan pedang yang tajam. Suatu malam, langit diselimuti kegelapan aneh, dan desas-desus tentang Negeri Lumina yang diserang bayangan mulai menyebar.</p>
+                    <img src="https://via.placeholder.com/350x250/3498db/ffffff?text=Sir+Kael+Bertekad" alt="Sir Kael bertekad">
                 </div>
             </div>
 
             <div class="page" id="page2">
                 <div class="page-content">
-                    <h2>Halaman 1</h2>
-                    <p>Di sebuah kerajaan yang damai, hiduplah Sir Kael, seorang ksatria muda dengan hati yang berani dan pedang yang tajam. Suatu malam, langit diselimuti kegelapan aneh, dan desas-desus tentang Negeri Lumina yang diserang bayangan mulai menyebar.</p>
-                    <img src="https://via.placeholder.com/350x300.png?text=Halaman+1" alt="Sir Kael">
+                    <h2>Halaman 2: Perjalanan Dimulai</h2>
+                    <p>Dengan tekad yang bulat, Sir Kael memulai perjalanannya menuju Negeri Lumina. Ia berjanji akan mengembalikan cahaya dan kedamaian di sana, tidak peduli seberapa berat rintangan yang akan ia hadapi. Perjalanannya melewati Hutan Misterius.</p>
+                    <img src="https://via.placeholder.com/350x250/2ecc71/ffffff?text=Hutan+Misterius" alt="Hutan Misterius">
                 </div>
             </div>
 
             <div class="page" id="page3">
                 <div class="page-content">
-                    <h2>Halaman 2</h2>
-                    <p>Dengan tekad yang bulat, Sir Kael memulai perjalanannya menuju Negeri Lumina. Ia berjanji akan mengembalikan cahaya dan kedamaian di sana, tidak peduli seberapa berat rintangan yang akan ia hadapi.</p>
-                    <img src="https://via.placeholder.com/350x300.png?text=Halaman+2" alt="Perjalanan Kael">
+                    <h2>Halaman 3: Pertemuan Tak Terduga</h2>
+                    <p>Di tengah hutan, Kael bertemu dengan seekor Griffin kuno yang terluka. Setelah membantu Griffin tersebut, sang Griffin menawarkan diri untuk menjadi tunggangannya, membawa Kael melintasi pegunungan yang tinggi menuju Lumina.</p>
+                    <img src="https://via.placeholder.com/350x250/f39c12/ffffff?text=Kael+dan+Griffin" alt="Kael dan Griffin">
                 </div>
             </div>
 
@@ -134,18 +172,36 @@
         const pages = document.querySelectorAll('.page');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        let currentPageIndex = 0;
+        let currentPageIndex = 0; // Mulai dari cover depan
 
-        // Fungsi untuk mengontrol halaman
+        // Mengatur z-index awal agar halaman terlihat bertumpuk dengan benar
+        // Halaman paling atas (cover) harus punya z-index tertinggi
+        pages.forEach((page, index) => {
+            page.style.zIndex = pages.length - index;
+        });
+
         function flipPage(direction) {
-            if (direction === 'next' && currentPageIndex < pages.length - 1) {
-                pages[currentPageIndex].classList.add('flipped');
-                currentPageIndex++;
-            } else if (direction === 'prev' && currentPageIndex > 0) {
-                currentPageIndex--;
-                pages[currentPageIndex].classList.remove('flipped');
+            if (direction === 'next') {
+                if (currentPageIndex < pages.length - 1) {
+                    pages[currentPageIndex].classList.add('flipped');
+                    currentPageIndex++;
+                }
+            } else if (direction === 'prev') {
+                if (currentPageIndex > 0) {
+                    currentPageIndex--;
+                    pages[currentPageIndex].classList.remove('flipped');
+                }
             }
+            updateButtonState();
         }
+
+        function updateButtonState() {
+            prevBtn.disabled = currentPageIndex === 0;
+            nextBtn.disabled = currentPageIndex === pages.length - 1;
+        }
+
+        // Inisialisasi status tombol saat pertama kali dimuat
+        updateButtonState();
 
         nextBtn.addEventListener('click', () => flipPage('next'));
         prevBtn.addEventListener('click', () => flipPage('prev'));
